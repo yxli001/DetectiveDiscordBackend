@@ -28,9 +28,41 @@ const detection = async (req, res) => {
                 labels.push(category.label);
             });
 
+            const badWordResponse = await axios.post(
+                `https://api.apilayer.com/bad_words?censor_character={*}`,
+                {
+                    text,
+                },
+                {
+                    headers: {
+                        apikey: process.env.BAD_WORD_API_KEY,
+                    },
+                }
+            );
+
+            if (badWordResponse.data.bad_words_total > 0) {
+                labels.push("Bad word");
+            }
+
             return res.json({ hateSpeech: true, labels });
         } else {
-            return res.json({ hateSpeech: false });
+            const badWordResponse = await axios.post(
+                `https://api.apilayer.com/bad_words?censor_character={*}`,
+                {
+                    text,
+                },
+                {
+                    headers: {
+                        apikey: process.env.BAD_WORD_API_KEY,
+                    },
+                }
+            );
+
+            if (badWordResponse.data.bad_words_total > 0) {
+                return res.json({ hateSpeech: true, labels: ["Bad Word"] });
+            } else {
+                return res.json({ hateSpeech: false });
+            }
         }
     } catch (err) {
         console.log(err);
