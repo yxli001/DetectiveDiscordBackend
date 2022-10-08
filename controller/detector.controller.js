@@ -1,6 +1,8 @@
 const axios = require("axios");
 
 const detection = async (req, res) => {
+    const { text } = req.body;
+
     try {
         // auth
 
@@ -8,7 +10,7 @@ const detection = async (req, res) => {
             "https://nlapi.expert.ai/v2/detect/hate-speech/en",
             {
                 document: {
-                    text: "I love butterflies",
+                    text: text,
                 },
             },
             {

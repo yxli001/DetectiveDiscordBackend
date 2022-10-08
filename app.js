@@ -10,6 +10,7 @@ const detector = require("./routes/detector.routes");
 
 // set up
 app.use(cors());
+app.use(express.json());
 
 app.use("/api/detector", detector);
 
