@@ -7,7 +7,7 @@ const PORT = process.env.PORT || 8000;
 
 // Routes
 const detector = require("./routes/detector.routes");
-
+const scanner = require("./routes/scanner.routes.js");
 // set up
 app.use(cors());
 app.use(express.json());
@@ -26,6 +26,7 @@ app.use((req, res, next) => {
 });
 
 app.use("/api/detector", detector);
+app.use("/api/scanner", scanner);
 
 app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);
