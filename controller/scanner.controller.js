@@ -38,21 +38,31 @@ const scanner = async (req, res) => {
         let numBad = 0;
         let numGood = 0;
         let start = 0;
+
+        const labels = [];
         for (let i = 0; i < 10; i++) {
             const result = await detector(
                 text.substring(start, start + numCharsPerChunk)
             );
 
-            console.log(result);
             if (result.hateSpeech) {
                 numBad += 1;
             } else {
                 numGood += 1;
             }
             start += numCharsPerChunk;
+
+            result.labels?.forEach((label) => {
+                if (labels.indexOf(label) === -1) {
+                    labels.push(label);
+                }
+            });
         }
 
-        return res.json((numBad / (numBad + numGood)) * 100);
+        return res.json({
+            percent: (numBad / (numBad + numGood)) * 100,
+            labels,
+        });
     } catch (err) {
         console.log(err);
     }
