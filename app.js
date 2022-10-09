@@ -3,7 +3,7 @@ const cors = require("cors");
 
 const express = require("express");
 const app = express();
-const PORT = 8000 || process.env.PORT;
+const PORT = process.env.PORT || 8000;
 
 // Routes
 const detector = require("./routes/detector.routes");
